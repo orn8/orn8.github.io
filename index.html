@@ -2,9 +2,96 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Refresh" content="0; url='https://averageneighbourhoodoragne.on.drv.tw/sites'" />
-    <title>Redirecting...</title>
+    <title>My Portfolio</title>
+    <style>
+      body {
+        background-color: black;
+        color: white;
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      h1 {
+        margin-bottom: 30px;
+      }
+
+      .button {
+        display: inline-block;
+        padding: 15px 30px;
+        background-color: #ffd700;
+        color: black;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: background-color 0.3s, transform 0.2s;
+        margin: 10px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .button:hover {
+        background-color: #555;
+        color: white;
+        transform: scale(1.05);
+      }
+
+      .button:active {
+        transform: scale(0.95);
+      }
+
+      .project-description {
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s linear 300ms, opacity 300ms;
+        position: absolute;
+        background-color: #333;
+        color: white;
+        border-radius: 5px;
+        padding: 10px;
+        margin-top: 5px;
+        font-size: 0.9rem;
+        white-space: nowrap;
+      }
+
+      .button:hover .project-description {
+        visibility: visible;
+        opacity: 1;
+        transition-delay: 0s;
+      }
+    </style>
 </head>
 <body>
+    <h1>My Projects</h1>
+    <div id="projects">
+        <!-- Project buttons will be added here by JavaScript -->
+    </div>
+    <script>
+        const urlPrefix = "https://averageneighbourhoodoragne.on.drv.tw/sites";
+        const projects = [
+            {"name": "VanishGames", "url": "vanishgames", "description": "Unblocked games, but much better."},
+            {"name": "KahootFetcher", "url": "kahootfetcher", "description": "THE Kahoot cheat for students."},
+        ];
+
+        const projectsContainer = document.getElementById('projects');
+
+        projects.forEach(project => {
+            let button = document.createElement('button');
+            button.className = 'button';
+            button.innerHTML = `${project.name}<span class="project-description">${project.description}</span>`;
+            button.onclick = function () {
+                window.open(`${urlPrefix}/${project.url}`, '_blank');
+            };
+
+            projectsContainer.appendChild(button);
+        });
+    </script>
 </body>
 </html>
