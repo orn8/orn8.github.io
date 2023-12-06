@@ -1,2 +1,1 @@
-# oragne.github.io
-GitHub Pages site for my projects.
+GitHub Pages site for projects.
