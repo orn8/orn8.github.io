@@ -1,64 +1,61 @@
-function handleButtonClick(button) {
-  var url = button.dataset.url;
-  if (url) {
-    var gameWindow = window.open('gameX.html?url=' + encodeURIComponent(url), '_blank');
-  }
-}
+document.addEventListener('DOMContentLoaded', function() {
+  const gamesString = `
+    Game 2;https://google.com
+    Game 1;https://bing.com
+    Game 3;https://duckduckgo.com
+    `;
 
-function createGameButton(game) {
-  var button = document.createElement('button');
-  button.textContent = game.name;
-  button.dataset.url = game.url;
-  button.classList.add('button');
-  return button;
-}
+  function setupButtons(gamesString) {
+    const buttonsContainer = document.getElementById('gameButtons');
+    const gamesArray = gamesString.trim().split('\n')
+      .map(line => {
+        const [name, url] = line.trim().split(';');
+        return { name, url };
+      })
+      .sort((a, b) => a.name.localeCompare(b.name)); // Sort games by name
 
-function setupButtons(games) {
-  var buttonsContainer = document.getElementById('gameButtons');
-  games.forEach(game => {
-    var button = createGameButton(game);
-    button.addEventListener('click', function(event) {
-      handleButtonClick(event.target);
+    gamesArray.forEach(game => {
+      const button = document.createElement('button');
+      button.textContent = game.name;
+      button.dataset.url = game.url;
+      button.classList.add('button');
+      button.addEventListener('click', function() {
+        window.open('gameX.html?url=' + encodeURIComponent(game.url), '_blank');
+      });
+      buttonsContainer.appendChild(button);
     });
-    buttonsContainer.appendChild(button);
-  });
-}
-
-function searchGames() {
-  var input, filter, buttons, i;
-  input = document.getElementById('searchInput');
-  filter = input.value.toUpperCase();
-  buttons = document.getElementById('gameButtons').getElementsByTagName('button');
-  for (i = 0; i < buttons.length; i++) {
-    if (buttons[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-      buttons[i].style.display = '';
-    } else {
-      buttons[i].style.display = 'none';
-    }
   }
-}
 
-document.getElementById('searchInput').addEventListener('input', function() {
-  searchGames();
-});
+  function searchGames() {
+    const input = document.getElementById('searchInput');
+    const filter = input.value.toUpperCase();
+    const buttons = [...document.getElementById('gameButtons').getElementsByTagName('button')];
+    buttons.forEach(button => {
+      const text = button.textContent || button.innerText;
+      button.style.display = text.toUpperCase().indexOf(filter) > -1 ? '' : 'none';
+    });
+  }
 
-document.getElementById('searchInput').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') {
-    this.blur();
-    var searchButton = document.getElementById('searchButton');
+  const searchButton = document.getElementById('searchButton');
+  function triggerSearchButtonEffect() {
     searchButton.style.backgroundColor = '#555';
     searchButton.style.color = 'white';
     setTimeout(function() {
-      searchButton.style.backgroundColor = 'white';
-      searchButton.style.color = 'black';
+      if (!searchButton.matches(':hover')) {
+        searchButton.style.backgroundColor = 'white';
+        searchButton.style.color = 'black';
+      }
     }, 300);
   }
-});
 
-document.addEventListener('DOMContentLoaded', function() {
-  fetch('gamelist.json')
-    .then(response => response.json())
-    .then(data => {
-      setupButtons(data.games);
-    });
+  document.getElementById('searchInput').addEventListener('input', searchGames);
+  document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') triggerSearchButtonEffect();
+  });
+
+  searchButton.addEventListener('click', () => searchInput.value !== '' && triggerSearchButtonEffect());
+  searchButton.addEventListener('mouseover', () => searchInput.value !== '' && (searchButton.style.backgroundColor = '#555', searchButton.style.color = 'white'));
+  searchButton.addEventListener('mouseout', () => !searchButton.matches(':hover') && (searchButton.style.backgroundColor = '', searchButton.style.color = ''));
+
+  setupButtons(gamesString);
 });
