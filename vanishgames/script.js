@@ -1,18 +1,20 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const gamesString = `
-    Game 2;https://google.com
-    Game 1;https://bing.com
-    Game 3;https://duckduckgo.com
-    `;
+  function fetchAndSetupButtons() {
+    fetch('gamelist.txt')
+      .then(response => response.text())
+      .then(gamesString => {
+        setupButtons(gamesString);
+      });
+  }
 
   function setupButtons(gamesString) {
     const buttonsContainer = document.getElementById('gameButtons');
     const gamesArray = gamesString.trim().split('\n')
       .map(line => {
-        const [name, url] = line.trim().split(';');
+        const [name, url] = line.split(';').map(part => part.trim());
         return { name, url };
       })
-      .sort((a, b) => a.name.localeCompare(b.name)); // Sort games by name
+      .sort((a, b) => a.name.localeCompare(b.name));
 
     gamesArray.forEach(game => {
       const button = document.createElement('button');
@@ -25,37 +27,57 @@ document.addEventListener('DOMContentLoaded', function() {
       buttonsContainer.appendChild(button);
     });
   }
-
+  
   function searchGames() {
     const input = document.getElementById('searchInput');
     const filter = input.value.toUpperCase();
     const buttons = [...document.getElementById('gameButtons').getElementsByTagName('button')];
     buttons.forEach(button => {
       const text = button.textContent || button.innerText;
-      button.style.display = text.toUpperCase().indexOf(filter) > -1 ? '' : 'none';
+      button.style.display = text.toUpperCase().includes(filter) ? '' : 'none';
     });
   }
-
+  
   const searchButton = document.getElementById('searchButton');
+  
   function triggerSearchButtonEffect() {
     searchButton.style.backgroundColor = '#555';
     searchButton.style.color = 'white';
     setTimeout(function() {
       if (!searchButton.matches(':hover')) {
-        searchButton.style.backgroundColor = 'white';
-        searchButton.style.color = 'black';
+        searchButton.style.backgroundColor = '';
+        searchButton.style.color = '';
       }
     }, 300);
   }
-
+  
   document.getElementById('searchInput').addEventListener('input', searchGames);
+  
   document.getElementById('searchInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') triggerSearchButtonEffect();
+    if (e.key === 'Enter') {
+      triggerSearchButtonEffect();
+    }
   });
 
-  searchButton.addEventListener('click', () => searchInput.value !== '' && triggerSearchButtonEffect());
-  searchButton.addEventListener('mouseover', () => searchInput.value !== '' && (searchButton.style.backgroundColor = '#555', searchButton.style.color = 'white'));
-  searchButton.addEventListener('mouseout', () => !searchButton.matches(':hover') && (searchButton.style.backgroundColor = '', searchButton.style.color = ''));
+  searchButton.addEventListener('click', function() {
+    if (searchInput.value !== '') {
+      triggerSearchButtonEffect();
+    }
+  });
 
-  setupButtons(gamesString);
+  searchButton.addEventListener('mouseover', function() {
+    if (searchInput.value !== '') {
+      this.style.backgroundColor = '#555';
+      this.style.color = 'white';
+    }
+  });
+
+  searchButton.addEventListener('mouseout', function() {
+    if (!searchButton.matches(':hover')) {
+      this.style.backgroundColor = '';
+      this.style.color = '';
+    }
+  });
+
+  fetchAndSetupButtons();
 });
