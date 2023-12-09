@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Kahoot Quiz Fetcher</title>
+<title>KahootFetcher</title>
 <style>
     body {
         background-color: black;
@@ -10,14 +10,59 @@
         font-family: 'Roboto', sans-serif;
         margin: 0;
         padding: 0;
+        overflow: hidden;
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
         text-align: center;
     }
+    
+    #corsPopup {
+        background: rgba(0, 0, 0, 0.7);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    }
+
+    iframe {
+        width: 80%;
+        height: 80%;
+        border: none;
+    }
+
+    .popupContent {
+        text-align: center;
+        color: white;
+        z-index: 1;
+        position: relative;
+    }
+    
+    .popupInstruction {
+        margin-bottom: 20px;
+    }
+
+    #closePopup {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: red;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+    }
+
     .button {
-        display: inline-block;
         padding: 20px 40px;
         background-color: #ffd700;
         color: black;
@@ -25,7 +70,6 @@
         font-size: 1.5rem;
         font-weight: 700;
         border-radius: 10px;
-        transition: background-color 0.3s, transform 0.2s;
         margin: 8px;
         border: none;
         cursor: pointer;
@@ -34,64 +78,61 @@
     .button:hover {
         background-color: #555;
         color: white;
-        transform: scale(1.05);
-    }
-    .button:active {
-        transform: scale(0.95);
     }
 </style>
 </head>
 <body>
     <button class="button" id="startButton">Start</button>
-    <button class="button" id="copyButton" style="display: none;">Copy Code</button>
+
+    <div id="corsPopup" style="display: none;">
+        <div class="popupContent">
+            <button id="closePopup" onclick="closePopup()">
+                X
+            </button>
+            <h1>KahootFetcher</h1>
+            <div class="popupInstruction">
+                <p>Please click "Request temporary access to the demo server" below</p>
+            </div>
+            <iframe src="https://cors-anywhere.herokuapp.com/corsdemo"></iframe>
+        </div>
+    </div>
+
     <script>
-    function isUserOnFirefox() {
-            return navigator.userAgent.indexOf("Firefox") > -1;
+        function closePopup() {
+            document.getElementById('corsPopup').style.display = 'none';
         }
+
+        window.onload = function() {
+            document.getElementById('corsPopup').style.display = 'flex';
+        };
+        
         document.getElementById('startButton').addEventListener('click', function() {
             const uuid = prompt("Please enter the Kahoot UUID:");
             const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
             if (uuidPattern.test(uuid)) {
-            	alert("A tab will open with the data of your Kahoot. Please return to this tab and copy the code after the tab opens.")
-                window.open(`https://kahoot.it/rest/kahoots/${uuid}`, '_blank');
-                document.getElementById('copyButton').style.display = 'inline-block';
+                const corsProxyURL = "https://cors-anywhere.herokuapp.com/";
+                const kahootAPIURL = `https://kahoot.it/rest/kahoots/${uuid}`;
+                fetch(corsProxyURL + kahootAPIURL, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+                    .then(response => response.json())
+                    .then(data => {
+                        
+                        const colorMap = ['Red', 'Blue', 'Yellow', 'Green'];
+                        const questions = data.questions || [];
+                        questions.forEach((question, i) => {
+                            const correctIndex = question.choices.findIndex(choice => choice.correct);
+                            const correctChoice = question.choices[correctIndex];
+                            const answerText = correctChoice ? correctChoice.answer : 'No correct answer';
+                            const color = colorMap[correctIndex];
+                            alert('Question ' + (i + 1) + ': ' + '[' + correctIndex + '] ' + color + ' (' + answerText + ')');
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching Kahoot data: ', error);
+                        alert('Failed to fetch data. Did you click the "Request temporary access to the demo server" on the popup?');
+                    });
             } else {
                 alert("Invalid UUID provided. Please ensure the UUID is in the correct format.");
             }
-        });
-
-        document.getElementById('copyButton').addEventListener('click', function() {
-            const scriptToCopy = `
-(function() {
-    var rawData;
-    if (document.querySelector('pre.data')) {
-        rawData = document.querySelector('pre.data').textContent;
-    } else if (document.querySelector('pre')) {
-        rawData = document.querySelector('pre').textContent;
-    } else {
-        alert('Error: The data could not be found.');
-        return;
-    }
-    const quizData = JSON.parse(rawData);
-    const colorMap = ['Red', 'Blue', 'Yellow', 'Green'];
-    quizData.questions.forEach((question, i) => {
-        const correctIndex = question.choices.findIndex(choice => choice.correct);
-        const correctChoice = question.choices[correctIndex];
-        const answerText = correctChoice ? correctChoice.answer : 'No correct answer';
-        const color = colorMap[correctIndex];
-        alert('Question ' + (i + 1) + ': ' + '[' + correctIndex + '] ' + color + ' (' + answerText + ')');
-    });
-})();
-            `;
-            navigator.clipboard.writeText(scriptToCopy).then(function() {
-                alert('The script has been copied to your clipboard. After the Kahoot page loads, ' + 
-                      'open the console, paste the script, and press Enter to see the answers.');
-                if (isUserOnFirefox()) {
-                    alert("You are using Firefox. Please select the 'Raw Data' tab before executing the code." + " (Ignore this message if 'devtools.jsonview.enabled' is disabled.)");
-                }
-            }, function(err) {
-                console.error('Could not copy text: ', err);
-            });
         });
     </script>
 </body>
