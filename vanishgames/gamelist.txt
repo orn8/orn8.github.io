@@ -1,3 +1,1 @@
-Game 2;https://google.com
-Game 1;https://bing.com
-Game 3;https://duckduckgo.com
+Shuttledeck;https://script.google.com/macros/s/AKfycbyMPTOJkcdxy2ZlSYIHeXskN3P83uluF2nAhDpwZU6DflFdXqyJ-SOFvVUCNfelkq9aXg/exec
