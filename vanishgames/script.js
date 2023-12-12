@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('searchInput').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
       triggerSearchButtonEffect();
+      searchInput.blur();
     }
   });
 
