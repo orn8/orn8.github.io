@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function setupButtons(gamesString) {
     const buttonsContainer = document.getElementById('gameButtons');
+
     const gamesArray = gamesString.trim().split('\n')
       .map(line => {
         const [name, url] = line.split(';').map(part => part.trim());
@@ -22,12 +23,14 @@ document.addEventListener('DOMContentLoaded', function() {
       button.dataset.url = game.url;
       button.classList.add('button');
       button.addEventListener('click', function() {
-        window.open('gameX.html?url=' + encodeURIComponent(game.url), '_blank');
+        const gameTitle = game.name;
+        const encodedUrl = encodeURIComponent(game.url);
+        window.open(`gameX.html?url=${encodedUrl}&title=${gameTitle}`, '_blank');
       });
       buttonsContainer.appendChild(button);
     });
   }
-  
+
   function searchGames() {
     const input = document.getElementById('searchInput');
     const filter = input.value.toUpperCase();
@@ -37,9 +40,10 @@ document.addEventListener('DOMContentLoaded', function() {
       button.style.display = text.toUpperCase().includes(filter) ? '' : 'none';
     });
   }
-  
+
   const searchButton = document.getElementById('searchButton');
-  
+  const searchInput = document.getElementById('searchInput');
+
   function triggerSearchButtonEffect() {
     searchButton.style.backgroundColor = '#555';
     searchButton.style.color = 'white';
@@ -50,10 +54,9 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }, 300);
   }
-  
-  document.getElementById('searchInput').addEventListener('input', searchGames);
-  
-  document.getElementById('searchInput').addEventListener('keypress', function(e) {
+
+  searchInput.addEventListener('input', searchGames);
+  searchInput.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
       triggerSearchButtonEffect();
       searchInput.blur();
