@@ -18,6 +18,7 @@ orn8.github.io is a hub for my web based projects. Built with [HTML](https://www
 
 - **[VanishGames](https://orn8.github.io/vanishgames):** An unblocked games hub.
 - **[KahootFetcher](https://orn8.github.io/kahootfetcher):** Fetch a Kahoot's answers.
+- **[KahootFetcher Lite](https://orn8.github.io/kahootfetcherlite):** KahootFetcher's beta version, use this if KahootFetcher doesn't work.
 
 ## Contributing
 

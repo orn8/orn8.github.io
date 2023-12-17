@@ -13,7 +13,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        min-height: 100vh;
         flex-direction: column;
         text-align: center;
       }
@@ -31,7 +31,8 @@
         font-size: 1.2rem;
         font-weight: bold;
         border-radius: 5px;
-        transition: background-color 0.3s, transform 0.2s;
+        transition-property: background-color, transform;
+        transition-duration: 150ms;
         margin: 10px;
         border: none;
         cursor: pointer;
@@ -41,6 +42,7 @@
         background-color: #555;
         color: white;
         transform: scale(1.05);
+        transition-duration: 150ms;
       }
 
       .button:active {
@@ -60,16 +62,39 @@
         font-size: 0.9rem;
         white-space: nowrap;
       }
+      
+      .search-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
+      }
 
-      .button:hover .project-description {
-        visibility: visible;
-        opacity: 1;
-        transition-delay: 0s;
+      .search-input {
+        padding: 13px 15px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        background-color: white;
+        color: black;
+        margin-right: 10px;
+        min-width: 300px;
+        box-sizing: border-box;
+      }
+      
+      .search-input::placeholder {
+        color: black;
       }
     </style>
 </head>
 <body>
     <h1>My Projects</h1>
+    <div class="search-container">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search projects...">
+        <button class="button" id="searchButton">Search</button>
+    </div>
     <div id="projects">
         <!-- Project buttons will be added here by JavaScript -->
     </div>
@@ -78,20 +103,59 @@
         const projects = [
             {"name": "VanishGames", "url": "vanishgames", "description": "Unblocked games, but much better."},
             {"name": "KahootFetcher", "url": "kahootfetcher", "description": "THE Kahoot cheat for students."},
+            {"name": "KahootFetcher Lite", "url": "kahootfetcherlite", "description": "Use this if KahootFetcher doesn't work."},
         ];
 
         const projectsContainer = document.getElementById('projects');
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
 
-        projects.forEach(project => {
-            let button = document.createElement('button');
-            button.className = 'button';
-            button.innerHTML = `${project.name}<span class="project-description">${project.description}</span>`;
-            button.onclick = function () {
-                window.open(`${urlPrefix}/${project.url}`, '_blank');
-            };
+        function renderProjects(projects) {
+            projectsContainer.innerHTML = '';
+            projects.forEach(project => {
+                const button = document.createElement('button');
+                button.className = 'button';
+                button.innerHTML = `${project.name}<span class="project-description">${project.description}</span>`;
+                button.onclick = function () {
+                    window.open(`${urlPrefix}/${project.url}`, '_blank');
+                };
 
-            projectsContainer.appendChild(button);
+                projectsContainer.appendChild(button);
+            });
+        }
+
+        function searchProjects() {
+            const filter = searchInput.value.trim().toLowerCase();
+            const filteredProjects = projects.filter(project =>
+                project.name.toLowerCase().includes(filter) ||
+                project.description.toLowerCase().includes(filter)
+            );
+            renderProjects(filteredProjects);
+        }
+
+        searchInput.addEventListener('input', searchProjects);
+
+        searchInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                this.blur();
+
+                searchButton.style.transform = 'scale(1.05)';
+                searchButton.style.backgroundColor = '#555';
+                searchButton.style.color = 'white';
+                setTimeout(function() {
+                    searchButton.style.transform = 'scale(0.95)';
+                    setTimeout(function() {
+                        searchButton.style.transform = '';
+                        searchButton.style.backgroundColor = '';
+                        searchButton.style.color = '';
+                    }, 150);
+                }, 150);
+
+                searchProjects();
+            }
         });
+
+        renderProjects(projects);
     </script>
 </body>
 </html>
