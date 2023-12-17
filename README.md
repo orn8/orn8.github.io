@@ -1,5 +1,5 @@
 <div align="center">
-  <h1 align="center"><a href="https://orn8.github.io">wiseoragne.github.io</a></h1>
+  <h1 align="center"><a href="https://orn8.github.io">orn8.github.io</a></h1>
   <h3>Some simple tools on the web. (Everything is for educational purposes only)</h3>
 </div>
 <br/>
@@ -11,7 +11,7 @@
 
 <br/>
 
-wiseoragne.github.io is a hub for my web based projects. Built with [HTML](https://www.w3.org/html/) and [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
+orn8.github.io is a hub for my web based projects. Built with [HTML](https://www.w3.org/html/) and [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
 
 ## Current Pages:
 
@@ -20,7 +20,7 @@ wiseoragne.github.io is a hub for my web based projects. Built with [HTML](https
 
 ## Contributing
 
-wiseoragne.github.io would love to get contibutions from the community! Whether it's just a typo fix, or a whole file rewrite.
+orn8.github.io would love to get contibutions from the community! Whether it's just a typo fix, or a whole file rewrite.
 
 If you'd like to contribute, please fork the repo and make changes as you'd like. Pull requests are warmly welcome.
 
