@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <title>My Projects</title>
     <style>
+      html {
+        overflow-x: hidden;
+      }
+      
       body {
+        width: 100%;
+        overflow-x: hidden;
         background-color: black;
         color: white;
         font-family: 'Roboto', sans-serif;
@@ -61,6 +67,12 @@
         margin-top: 5px;
         font-size: 0.9rem;
         white-space: nowrap;
+      }
+      
+      .button:hover .project-description {
+        visibility: visible;
+        opacity: 1;
+        transition-delay: 0s;
       }
       
       .search-container {
