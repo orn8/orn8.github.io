@@ -12,7 +12,7 @@
 
 </br>
 
-orn8.github.io is a hub for my web based projects. Built with [HTML](https://www.w3.org/html/) and [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
+orn8.github.io is a web hub for my projects. Built with [HTML](https://www.w3.org/html/) and [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
 
 ## Current Pages:
 
