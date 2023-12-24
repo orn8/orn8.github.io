@@ -14,31 +14,22 @@
 
 orn8.github.io is a web hub for my projects. Built with [HTML](https://www.w3.org/html/) and [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
 
-## Current Pages:
+## Current Projects:
 
 - **[VanishGames](https://orn8.github.io/vanishgames):** An unblocked games hub.
 - **[KahootFetcher](https://orn8.github.io/kahootfetcher):** Fetch a Kahoot's answers.
 - **[KahootFetcher Lite](https://orn8.github.io/kahootfetcherlite):** KahootFetcher's beta version, use this if KahootFetcher doesn't work.
+- **[micro:games](https://github.com/orn8/micro-games):** (*kinda*) Fun and simple games for the micro:bit.
+- **[oragne shop](https://github.com/orn8/tinfoil):** A Tinfoil shop forwarder for the Nintendo Switch, hosted on GitHub.
 
 ## Contributing
 
-orn8.github.io would love to get contibutions from the community! Whether it's just a typo fix, or a whole file rewrite.
+orn8.github.io would like to get contibutions from the community (even though there's barely anything to contibute to).
 
-If you'd like to contribute, please fork the repo and make changes as you'd like. Pull requests are warmly welcome.
+If you'd like to contribute, please fork the repo and make changes as you'd like.
 
 ### Our Contributors ✨
 
 <a href="https://github.com/orn8/orn8.github.io/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=orn8/orn8.github.io" />
 </a>
-
-</br>
-</br>
-
-<blockquote>
-<h3>Inspiration</h3>
-
-- [Classroom6x](https://sites.google.com/site/classroom6x) - An unblocked games site hosted on Google.
-- [SHS Games](https://shsgames.github.io/) - Another well-made unblocked games site hosted on GitHub.
-- [Kacheese](http://roko.cc/p/kahoot) - A Kahoot tool to flood games and get answers.
-</blockquote>
