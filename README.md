@@ -24,7 +24,7 @@ orn8.github.io is a web hub for my projects. Built with [HTML](https://www.w3.or
 
 ## Contributing
 
-orn8.github.io would like to get contibutions from the community (even though there's barely anything to contibute to).
+orn8.github.io would like to get contributions from the community (even though there's barely anything to contribute to).
 
 If you'd like to contribute, please fork the repo and make changes as you'd like.
 
