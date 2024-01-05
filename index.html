@@ -96,8 +96,10 @@
         box-sizing: border-box;
       }
       
-      .search-input::placeholder {
-        color: black;
+      .project-line {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
       }
     </style>
 </head>
@@ -114,10 +116,12 @@
         const urlPrefix = "https://";
         const projects = [
             {"name": "VanishGames", "url": "orn8.github.io/vanishgames", "description": "Unblocked games, but much better."},
-            {"name": "KahootFetcher", "url": "orn8.github.io/kahootfetcher/lite", "description": "THE Kahoot cheat for students."},
+            {"name": "KahootFetcher", "url": "orn8.github.io/kahootfetcher", "description": "THE Kahoot cheat for students."},
             {"name": "KahootFetcher Lite", "url": "orn8.github.io/kahootfetcher/lite", "description": "Use this if KahootFetcher doesn't work."},
             {"name": "micro:games", "url": "github.com/orn8/micro-games", "description": "Simple games for the micro:bit."},
             {"name": "oragne shop", "url": "github.com/orn8/tinfoil", "description": "A Tinfoil shop forwarder for the switch."},
+            {"name": "newline"},
+            {"name": "orn8's iPA Repo", "url": "orn8.github.io/ipa", "description": "An iPA repository for the wackiest apps I've found."}
         ];
 
         const projectsContainer = document.getElementById('projects');
@@ -126,16 +130,25 @@
 
         function renderProjects(projects) {
             projectsContainer.innerHTML = '';
+            let currentLine = document.createElement('div');
+            currentLine.className = 'project-line';
             projects.forEach(project => {
-                const button = document.createElement('button');
-                button.className = 'button';
-                button.innerHTML = `${project.name}<span class="project-description">${project.description}</span>`;
-                button.onclick = function () {
-                    window.open(`${urlPrefix}/${project.url}`, '_blank');
-                };
+                if (project.name.toLowerCase() === 'newline') {
+                    projectsContainer.appendChild(currentLine);
+                    currentLine = document.createElement('div');
+                    currentLine.className = 'project-line';
+                } else {
+                    const button = document.createElement('button');
+                    button.className = 'button';
+                    button.innerHTML = `${project.name}<span class="project-description">${project.description}</span>`;
+                    button.onclick = function () {
+                        window.open(`${urlPrefix}/${project.url}`, '_blank');
+                    };
 
-                projectsContainer.appendChild(button);
+                    currentLine.appendChild(button);
+                }
             });
+            projectsContainer.appendChild(currentLine);
         }
 
         function searchProjects() {
