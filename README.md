@@ -21,7 +21,7 @@ orn8.github.io is a web hub for my projects. Built with [HTML](https://www.w3.or
 - **[KahootFetcher Lite](https://orn8.github.io/kahootfetcher/lite):** KahootFetcher's beta version, use this if KahootFetcher doesn't work.
 - **[micro:games](https://github.com/orn8/micro-games):** Fun and simple games for the micro:bit.
 - **[oragne shop](https://github.com/orn8/tinfoil):** A Tinfoil shop forwarder for the Nintendo Switch, hosted on GitHub.
-- **[orn8's iPA Repo](https://orn8.github.io/ipa):** An iPA (iOS or iPadOS app) repository for the wackiest app I've found on the internet.
+- **[oragne's iPA Repo](https://orn8.github.io/ipa):** An iPA (iOS or iPadOS app) repository for the wackiest app I've found on the internet.
 
 ## Contributing
 
